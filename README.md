@@ -60,6 +60,6 @@ Shows completed assignments history.
 ```bash
 python assihelper.py done -id ID
 ```
-Here -due command is optional, if not given then gives the system time.
+Here -due command is optional, if not given then uses the system time.
 
 
