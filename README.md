@@ -26,7 +26,10 @@ Make sure you have Python 3.x installed along with the `rich` UI library.
 ```bash
 python assihelper.py add "Title" -due "YYYY-MM-DD HH:MM" -hrs <hours> -imp <1-5>
 ```
+
 -d command is optional but can be used here
+
+
 
 ```bash
 python assihelper.py
@@ -38,17 +41,25 @@ python assihelper.py list
 
 Lists the assignments to be completed
 
+
+
 ```bash
 python assihelper.py delete -id ID
 ```
 Deletes id
+
+
 
 ```bash
 python assihelper.py history
 ```
 Shows completed assignments history
 
+
+
 ```bash
 python assihelper.py done -id ID
 ```
 Here -due command is optional, if not given then gives the system time.
+
+
