@@ -1,6 +1,6 @@
 # 📋 assihelper
 
-**assihelper** is a smart, color-coded Command Line Interface (CLI) assignment and task prioritizer built with Python. It features a dynamic priority scoring algorithm that evaluates tasks based on deadline urgency, importance, and estimated effort, rendering a gorgeous terminal interface powered by the `rich` library.
+**assihelper** is a smart, color-coded Command Line Interface (CLI) assignment and task prioritizer built with Python. It features a dynamic priority scoring algorithm that evaluates tasks based on deadline urgency, importance, and estimated effort, rendering a gorgeous terminal interface powered by the `rich` library. It doesn't require network once installed. (Keep in mind assignments.json and completed.json are formed within in the same folder so do not move or delete it.)
 
 ---
 
@@ -32,7 +32,7 @@ python assihelper.py add "Title" -due "YYYY-MM-DD HH:MM" -hrs <hours> -imp <1-5>
 python assihelper.py
 ```
 OR
-'''bash
+```bash
 python assihelper.py list
 ```
 
