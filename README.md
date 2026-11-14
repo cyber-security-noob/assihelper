@@ -4,7 +4,8 @@
 💡 Core Idea
 assihelper was created to solve a common developer and student problem: task list paralysis. Traditional to-do apps treat every task with equal weight, making it hard to decide what to tackle next.
 
-The core idea behind assihelper is a smart CLI task prioritizer that acts like an automated triage system. Instead of manual sorting, it continuously recalculates what matters most using a mathematical priority formula, presenting your queue in a stunning, color-coded terminal dashboard.The mathematical formula it uses to calculate is $$\text{Score} = (\text{Importance} \times 3.0) + (\text{Urgency} \times 15.0) + (\text{Effort Hours} \times 0.2)$$
+The core idea behind assihelper is a smart CLI task prioritizer that acts like an automated triage system. Instead of manual sorting, it continuously recalculates what matters most using a mathematical priority formula, presenting your queue in a stunning, color-coded terminal dashboard.The mathematical formula it uses to calculate is 
+$$\text{Score} = (\text{Importance} \times 3.0) + (\text{Urgency} \times 15.0) + (\text{Effort Hours} \times 0.2)$$
 
 ---
 
