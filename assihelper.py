@@ -7,78 +7,84 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
+'''
+Brief Note: The idea was created on my own , but I used AI (Gemini) to vibe code it and learn certain commands. This assihelper was created to help students work offline without internet and keep a reminder of what to be done. 
+
+
+
+'''
 
 DATA_FILE = "assignments.json"  # The json file where data is to be stored
 COMPLETED_FILE = "completed.json"  # The json file for completed assignments
-console = Console()
+console = Console() #Calling out console
 
 BANNER = r"""
    ___   _____ _____ ____ __ __ ____ __    ___   ____ ___ 
   / _ | / ___// ___//  _// // // __// /   / _ \ / __// _ \
  / __ | \__ \ \__ \ _/ / / _  // _/ / /__ / ___// _/ / , _/
 /_/ |_|/___/ /___/ /___//_//_//___//____//_/   /___//_/|_| 
-"""
+"""  #The banner
 
 
 def load_data(filename=DATA_FILE):
   if not os.path.exists(filename):  # checks if the json file exists
     return []
-  with open(filename, "r") as f:
+  with open(filename, "r") as f: 
     try:
-      return json.load(f)
+      return json.load(f) #Loads the data
     except json.JSONDecodeError:
       return []
 
 
 def save_data(assignments, filename=DATA_FILE):
   with open(filename, "w") as f:  # updates the json file
-    json.dump(assignments, f, indent=4)
+    json.dump(assignments, f, indent=4)  #Dumps the data into the file
 
 
 def calculate_priority(assignment):
-  now = datetime.now()
-  due_str = assignment.get("due_date", now.strftime("%Y-%m-%d %H:%M"))
+  now = datetime.now() 
+  due_str = assignment.get("due_date", now.strftime("%Y-%m-%d %H:%M")) #Getting the due date , default value is system time
 
   parsed_due = None
-  for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%d"):
+  for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%d"): #Applying both formats of time
     try:
-      parsed_due = datetime.strptime(due_str, fmt)
+      parsed_due = datetime.strptime(due_str, fmt) #Converting str due_time to datetime object for later comparison
       break
     except ValueError:
       continue
 
   if not parsed_due:
-    parsed_due = now
+    parsed_due = now #giving parsed_due value of now datetime object if its still none
 
   # Precise time difference in days (can be fractional)
-  diff = parsed_due - now
-  days_left = diff.total_seconds() / 86400.0
+  diff = parsed_due - now   #Since now both are datetime objects it can be compared
+  days_left = diff.total_seconds() / 86400.0 #Calculating days
 
-  if days_left < 0:
-    urgency = 50.0  # Overdue boost
+  if days_left < 0: #Days left is less than zero , ie due time becomes overdue
+    urgency = 50.0  # Overdue boost 
   else:
-    urgency = 10.0 / (days_left + 1)
+    urgency = 10.0 / (days_left + 1) #Less urgency with less value if more days are left
 
-  importance = float(assignment.get("importance", 3))
-  hours = float(assignment.get("est_hours", 2))
+  importance = float(assignment.get("importance", 3)) #Importance value 
+  hours = float(assignment.get("est_hours", 2))  #Estimated hours value
 
   score = (
-      importance * 3.0
-  ) + (  # Formula for calculating priority
+      importance * 3.0   
+  ) + (                          #Formula for calculating priority
       urgency * 15.0
   ) + (hours * 0.2)
-  return min(round(score, 2),100), days_left, parsed_due
+  return min(round(score, 2),100), days_left, parsed_due #Returning the score , days left and parsed due but making sure score doesn't go beyond 100
 
 
 def get_importance_stars(imp):
-  return "★" * imp + "☆" * (5 - imp)
+  return "★" * imp + "☆" * (5 - imp) #Adding stars
 
 
 def get_urgency_bar(score):
-  """Creates a visual ASCII bar representing the score intensity."""
-  filled = min(int(score // 10), 10)
-  empty = 10 - filled
-  return "█" * filled + "░" * empty
+  # Creates a visual ASCII bar representing the score intensity.
+  filled = min(int(score // 10), 10) #filled bars
+  empty = 10 - filled   #unfilled bars
+  return "█" * filled + "░" * empty  #Returning the ascii value
 
 
 def show_header():
@@ -93,10 +99,10 @@ def show_header():
 
 
 def add_assignment(args):
-  assignments = load_data(DATA_FILE)
+  assignments = load_data(DATA_FILE)  #Loading data
 
   # Validate mandatory due date input
-  parsed_due = None
+  parsed_due = None  
   for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%d"):
     try:
       parsed_due = datetime.strptime(args.due_date, fmt)
@@ -117,7 +123,7 @@ def add_assignment(args):
 
   formatted_due = parsed_due.strftime("%Y-%m-%d %H:%M")
 
-  # Generate unique incremental ID even after deletions
+  # Generates unique incremental ID
   next_id = max([a["id"] for a in assignments], default=0) + 1
 
   new_assignment = {
@@ -145,7 +151,7 @@ def add_assignment(args):
 
 def list_assignments(args):
   show_header()
-  assignments = load_data(DATA_FILE)
+  assignments = load_data(DATA_FILE) #Loads data
 
   if not assignments:
     console.print(
@@ -166,7 +172,7 @@ def list_assignments(args):
     a["parsed_due"] = parsed_due
 
   # Sort highest priority first
-  assignments.sort(key=lambda x: x["score"], reverse=True)
+  assignments.sort(key=lambda x: x["score"], reverse=True) #Sorting based on score
 
   table = Table(
       title="[bold white]📋 PRIORITIZED ASSIGNMENT QUEUE[/bold white]",
@@ -174,7 +180,7 @@ def list_assignments(args):
       show_lines=True,
       header_style="bold magenta",
       border_style="bright_blue",
-  )
+  ) #Creating table 
 
   table.add_column("ID", justify="center", style="bold cyan", width=4)
   table.add_column("Assignment & Description", style="bold white", width=34)
@@ -193,7 +199,7 @@ def list_assignments(args):
       row_color = "bold red"
       status_badge = "[bold white on red] OVERDUE [/bold white on red]"
       due_str = f"{a['due_date']}\n({abs(round(days_left, 1))}d late)"
-    elif days_left <= 2 or score > 70:
+    elif days_left <= 2 or score > 70: 
       row_color = "red"
       status_badge = "[bold red]● URGENT[/bold red]"
       hours_left = round(days_left * 24, 1)
@@ -240,7 +246,7 @@ def list_assignments(args):
 
 def complete_assignment(args):
   assignments = load_data(DATA_FILE)
-  completed = load_data(COMPLETED_FILE)
+  completed = load_data(COMPLETED_FILE) #Also loads completed file
 
   # Find the assignment to complete using args.id
   target = next((a for a in assignments if a["id"] == args.id), None)
