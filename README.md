@@ -62,10 +62,24 @@ python assihelper.py history
 Shows completed assignments history.
 
 
-
 ```bash
 python assihelper.py done -id ID
 ```
 Here -due command is optional, if not given then uses the system time.
+
+## 📷  Sample screenshots to show its working
+
+<img width="626" height="65" alt="image" src="https://github.com/user-attachments/assets/0289c0fe-c2a8-4e05-a3a1-2f8761f98cc2" />
+
+
+<img width="631" height="144" alt="image" src="https://github.com/user-attachments/assets/548b387f-c3ba-4ba5-9ac4-7d5642202513" />
+
+
+<img width="627" height="47" alt="image" src="https://github.com/user-attachments/assets/f40e2379-6a96-47db-bfcb-25fe1f84c2f9" />
+
+
+<img width="572" height="83" alt="image" src="https://github.com/user-attachments/assets/7fadedda-3205-4970-b6b0-105f7f1ddc8a" />
+
+
 
 
